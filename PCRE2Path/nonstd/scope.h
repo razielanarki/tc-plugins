@@ -1,3 +1,9 @@
+//==========================================================================
+// nonstd/scope.h: minimalistic, exit-policy design raii scope guards
+//==========================================================================
+// (C) 2022 Raziel Anarki
+//--------------------------------------------------------------------------
+
 #pragma once
 
 #include <exception>
@@ -5,17 +11,23 @@
 
 #include "utility.h" // is_any_same_v
 
+//--------------------------------------------------------------------------
+
 namespace nonstd
 {
 
 inline namespace fundamentals_v3
 {
 
-// implementation details
+//--------------------------------------------------------------------------
+// implementation details (until line ~173-ish)
+
 namespace detail
 {
 
+//--------------------------------------------------------------------------
 // default scope exit policy
+
 struct scope_exit_policy
 {
     inline scope_exit_policy( bool execute_on_exit = true ) noexcept
@@ -42,7 +54,9 @@ protected:
     bool execute_on_exit;
 };
 
+//--------------------------------------------------------------------------
 // generic exception-based scope exit policy
+
 struct scope_except_policy : scope_exit_policy
 {
     inline scope_except_policy( bool execute_on_exit = true ) noexcept
@@ -64,7 +78,9 @@ protected:
     int uncaught_on_creation;
 };
 
+//--------------------------------------------------------------------------
 // scope fail exit policy
+
 struct scope_fail_policy : scope_except_policy
 {
     using scope_except_policy::scope_except_policy;
@@ -75,7 +91,9 @@ struct scope_fail_policy : scope_except_policy
     }
 };
 
+//--------------------------------------------------------------------------
 // scope success exit policy
+
 struct scope_success_policy : scope_except_policy
 {
     using scope_except_policy::scope_except_policy;
@@ -86,11 +104,15 @@ struct scope_success_policy : scope_except_policy
     }
 };
 
+//--------------------------------------------------------------------------
 // scope guard policy type constraint
+
 template<class Policy>
 concept scope_guard_policy = is_any_same_v<Policy, scope_exit_policy, scope_fail_policy, scope_success_policy>;
 
+//--------------------------------------------------------------------------
 // generic scope-guard template
+
 template<std::invocable ExitCallback, scope_guard_policy ExitPolicy>
 class scope_guard
 {
@@ -140,9 +162,13 @@ private:
     ExitPolicy exit_policy;
 };
 
-}
+//==========================================================================
 
-// scope_exit + deduction template
+} // inline namespace detail
+
+//--------------------------------------------------------------------------
+// scope_exit w. C++17 deduction template
+
 template<std::invocable ExitCallback> class scope_exit
     : public detail::scope_guard<ExitCallback, detail::scope_exit_policy>
 {
@@ -151,7 +177,9 @@ template<std::invocable ExitCallback> class scope_exit
 template<std::invocable ExitCallback>
 scope_exit( ExitCallback )->scope_exit<ExitCallback>;
 
-// scope fail + deduction template
+//--------------------------------------------------------------------------
+// scope fail w. C++17 deduction template
+
 template<std::invocable ExitCallback> class scope_fail
     : public detail::scope_guard<ExitCallback, detail::scope_fail_policy>
 {
@@ -160,7 +188,9 @@ template<std::invocable ExitCallback> class scope_fail
 template<std::invocable ExitCallback>
 scope_fail( ExitCallback )->scope_fail<ExitCallback>;
 
-// scope success + deduction template
+//--------------------------------------------------------------------------
+// scope success w. C++17 deduction template
+
 template<std::invocable ExitCallback> class scope_success
     : public detail::scope_guard<ExitCallback, detail::scope_success_policy>
 {
@@ -169,28 +199,14 @@ template<std::invocable ExitCallback> class scope_success
 template<std::invocable ExitCallback>
 scope_success( ExitCallback )->scope_success<ExitCallback>;
 
-#if 0
+
+//--------------------------------------------------------------------------
+
+#undef DEMO_USAGE
+#ifdef DEMO_USAGE
+
 inline namespace example
 {
-
-inline void constexpr_example()
-{
-    scope_exit( [] { return; } );
-
-    // named storage
-    scope_exit stored = scope_exit( [] { return; } );
-    // cancelled
-    stored.release();
-
-    // list init
-    scope_exit list_init { [] { return; } };
-    // copy list init
-    scope_exit copy_list_init = { [] { return; } };
-    // copy_list_init = { [] { return; } }; // (reassign) ERROR: no operator matches ...
-    // move
-    scope_exit moved = std::move( stored );
-    //scope_exit copied = stored; // (copy) ERROR: copy constructor deleted
-}
 
 inline void example()
 {
@@ -212,6 +228,7 @@ inline void example()
 }
 
 }
+
 #endif
 
 //--------------------------------------------------------------------------

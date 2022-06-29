@@ -1,3 +1,9 @@
+//==========================================================================
+// contentplugin.h: C++ -ish TC/WDX plugin API interface
+//==========================================================================
+// (C) 2022 Raziel Anarki, based on the official WDX guide 2.12
+//--------------------------------------------------------------------------
+
 #pragma once
 
 #include "contentplugin_types.h"
@@ -95,9 +101,10 @@ VOID PLUGINAPI ContentStopGetValueW
     LPWSTR FileNameW
 );
 
-//==========================================================================
-
 /** /
+//==========================================================================
+// TODO: API-s
+
 INT ContentGetSupportedFieldFlags
 (
     INT FieldIndex
@@ -123,6 +130,7 @@ INT ContentGetSupportedOperators
 );
 
 //==========================================================================
+// TODO: Unicode API-s
 
 INT ContentSetValue
 (
@@ -134,8 +142,7 @@ INT ContentSetValue
     INT Flags
 );
 
-
-INT TNAME(ContentFindValue)
+INT ContentFindValue
 (
     LPTSTR FileName,
     INT FieldIndex,
@@ -146,12 +153,14 @@ INT TNAME(ContentFindValue)
     LPVOID FieldValue
 );
 
-INT TNAME(ContentCompareFiles)
+INT ContentCompareFiles
 (
     PROGRESSCALLBACKPROC ProgressCallback,
-    INT CompareIndex,
-    LPTSTR FileName1,
-    LPTSTR FileName2,
+    UINT CompareIndex,
+    LPSTR FileName1,
+    LPSTR FileName2,
     LPFILEDETAILS FileDetails
 );
+
 /**/
+//==========================================================================

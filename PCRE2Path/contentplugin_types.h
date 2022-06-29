@@ -1,3 +1,9 @@
+//==========================================================================
+// contentplugin_types.h: C++ -ish TC/WDX plugin API types
+//==========================================================================
+// (C) 2022 Raziel Anarki, based on the official WDX guide 2.12
+//--------------------------------------------------------------------------
+
 #pragma once
 
 //==========================================================================
@@ -13,6 +19,7 @@ typedef struct tagCONTENTDEFAULTPARAMS
 
 //==========================================================================
 
+// ContentSendStateInformation
 enum StateChange:UINT
 {
     FolderLoad = 0x01,  // contst_readnewdir
@@ -54,6 +61,7 @@ typedef struct tagCOMPAREFILEDETAILS
 } COMPAREFILEDETAILS, *LPCOMPAREFILEDETAILS;
 
 //==========================================================================
+
 
 enum class ProgressInfo:BOOL
 {
@@ -119,6 +127,7 @@ enum class ContentFlags:UINT
     FieldFindPage = 0b01000000, // contflags_fieldsearchpageonly
 };
 
+//
 enum class SortOrder:INT
 {
     Desc    = -1,   // Z..A, 9..0, SIZE:LARGE->SMALL, DATE/TIME:RECENT->OLD

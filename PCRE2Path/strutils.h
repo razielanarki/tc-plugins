@@ -1,8 +1,16 @@
+//==========================================================================
+// strutils: utils to convert between UTF8 CHARs and Windows Unicode WCHARs
+//==========================================================================
+// (C) 2022 Raziel Anarki
+//--------------------------------------------------------------------------
+
 #pragma once
+
+#include "nonstd/scope.h"
 
 //==========================================================================
 
-// tempb buffer deleted at end of the scope
+// tempb buffer auto-deleted at end of the function/scope
 #define AUTOSTR(_VAR_, _SIZE_) \
     LPSTR _VAR_ = new CHAR[_SIZE_] { 0 }; \
     nonstd::scope_exit ( [&_VAR_] { delete[] _VAR_; } );

@@ -35,13 +35,12 @@ pcre2_code_8 *code = NULL;
 INT errcode = 0;
 PCRE2_SIZE erroffs = 0;
 
-
 //==========================================================================
 
 // fw decl
-void plugin_path();
-void plugin_load();
-void plugin_data();
+void plugin_path ();
+void plugin_load ();
+void plugin_data ();
 
 //==========================================================================
 
@@ -76,22 +75,22 @@ VOID PluginDone ()
 {
     if( !code ) return;
 
-    pcre2_jit_stack_free_8 ( NULL );
+    // pcre2_jit_stack_free_8 ( NULL );
     pcre2_code_free_8 ( code );
     code = NULL;
 }
 
 //==========================================================================
 
-VOID plugin_path ()
+void plugin_path ()
 {
     if( strlen ( DataPath ) == 0 )
         GetModuleFileNameA ( hInstance, DataPath, MAX_PATH );
 
     lstrcpyA ( strrchr ( DataPath, '\\' ) + 1, DataFile );
-}
+};
 
-VOID plugin_load ()
+void plugin_load ()
 {
     plugin_path (); // get default setttings file path
     plugin_data (); // create settings if not exists
@@ -118,9 +117,9 @@ VOID plugin_load ()
 
         CloseHandle ( file );
     }
-}
+};
 
-VOID plugin_data ()
+void plugin_data ()
 {
     // write default rules to new file, if none exist
     HANDLE file = CreateFileA
