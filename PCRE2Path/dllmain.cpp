@@ -55,12 +55,12 @@ VOID PluginInit()
     (
         (PCRE2_SPTR8) pattern,
         lstrlenA ( pattern ),
-        PCRE2_UCP | PCRE2_UTF | PCRE2_MATCH_INVALID_UTF ,
+        PCRE2_UCP | PCRE2_UTF /** / | PCRE2_MATCH_INVALID_UTF /**/,
         &errcode,
         &erroffs,
         NULL
     );
-
+/** /
     pcre2_jit_compile_8
     (
         code,
@@ -68,6 +68,7 @@ VOID PluginInit()
         PCRE2_JIT_PARTIAL_HARD |
         PCRE2_JIT_PARTIAL_SOFT
     );
+/**/
 }
 
 //  free mem + cleanup
