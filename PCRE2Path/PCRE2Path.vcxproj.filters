@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="contentplugin.h" />
+    <ClInclude Include="contentplugin_types.h" />
+    <ClInclude Include="dllmain.h" />
+    <ClInclude Include="nonstd\scope.h">
+      <Filter>nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\utility.h">
+      <Filter>nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="strutils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="contentplugin.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="nonstd">
+      <UniqueIdentifier>{39f3e7d3-752f-4e37-8546-bf0abb5e9934}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
